@@ -1,7 +1,7 @@
 #variable declaration
-COURSE = DevOps with AWS
-TRAINER = SivaKumarM
-DURATION = 120hrs
+# COURSE = DevOps with AWS
+# TRAINER = SivaKumarM
+# DURATION = 120hrs
 
 - name: variables to print
   hosts: web
