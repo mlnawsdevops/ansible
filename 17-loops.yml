@@ -1,0 +1,13 @@
+- name: loops demo
+  hosts: web
+  become: yes
+  tasks:
+  - name: Install packages
+    module.builtin.package:
+      name: {{item}}
+      state: present
+    loop:
+    - mysql
+    - nginx
+    - postfix
+    - httpd
