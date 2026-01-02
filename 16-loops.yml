@@ -3,10 +3,10 @@
   connection: local
   tasks:
   - name: print names
-  ansible.builtin.debug:
-    msg: "Hello {{item}}"
-  loops:
-  - Ramesh
-  - Suresh
-  - Robert
-  - Rahim
+    ansible.builtin.debug:
+      msg: "Hello {{item}}"
+    loops:
+    - Ramesh
+    - Suresh
+    - Robert
+    - Rahim
