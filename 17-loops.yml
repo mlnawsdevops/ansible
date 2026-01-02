@@ -4,7 +4,7 @@
   tasks:
   - name: Install packages
     module.builtin.package:
-      name: {{item}}
+      name: {{ item }}
       state: present
     loop:
     - mysql
