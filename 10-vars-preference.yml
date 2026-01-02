@@ -2,15 +2,15 @@
   hosts: web
   vars:
     COURSE: "DevOps with AWS from play level"
-  vars_files:
-  - vars.yml
+  # vars_files: #3-preference
+  # - vars.yml
   vars_prompt:
     - name: COURSE
       prompt: Please enter the course name
       private: false
   tasks:
   - name: print the information
-    # vars:
+    # vars: #2-preference
     #   COURSE: "DevOps with AWS from task level"
     ansible.builtin.debug:
       msg: "Hi, I am learning {{COURSE}}"
