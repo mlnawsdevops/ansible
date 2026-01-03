@@ -43,7 +43,7 @@
     amazon.aws.route53:
       state: present
       zone: "{{zone}}"
-      record: "{{item:item}}.{{zone}}" #mysql.daws100s.online
+      record: "{{item.item}}.{{zone}}" #mysql.daws100s.online
       type: A
       ttl: 1
       value: "{{item.instances[0].private_ip_address}}" #172.168.1.1
@@ -58,7 +58,7 @@
       zone: "{{zone}}"
       ttl: 1
       type: A
-      record: "{{item:item}}.{{zone}}"
+      record: "{{item.item}}.{{zone}}"
       value: "{{item.instances[0].public_ip_address}}"
       wait: true
       overwrite: true
