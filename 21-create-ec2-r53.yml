@@ -50,6 +50,11 @@
       wait: true
       overwrite: true
     loop: "{{ec2_instances.results}}"
+    register: private_records
+
+  - name: print the private r53 output
+    ansible.builtin.debug:
+      msg: "{{private_records}}"
 
   #print the r53 public record
   - name: create r53 public record
@@ -64,3 +69,9 @@
       overwrite: true
     loop: "{{ec2_instances.results}}"
     when: item.item = "frontend" #when keyword should not have {{ }}
+    register: public_records
+
+  - name: print the output of public record
+    ansible.builtin.debug:
+      msg: "{{public_records}}"
+
