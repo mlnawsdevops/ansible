@@ -25,6 +25,7 @@
 
   - name: create ec2 instance
     amazon.aws.ec2_instance: #module for aws ec2_instances
+      state: absent
       name: "{{ item }}"
       vpc_subnet_id: "{{ subnet_id }}"
       instance_type: "t3.micro"
