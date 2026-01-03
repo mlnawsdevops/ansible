@@ -63,7 +63,7 @@
       zone: "{{zone}}"
       ttl: 1
       type: A
-      record: "{{item.item}}.{{zone}}"
+      record: "{{zone}}"
       value: "{{item.instances[0].public_ip_address}}"
       wait: true
       overwrite: true
