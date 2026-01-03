@@ -10,7 +10,6 @@
     ami_id: "ami-09c813fb71547fc4f"
     instances: 
     - mysql
-    - mysql 
     - backend
     - frontend
     zone: daws100s.online
