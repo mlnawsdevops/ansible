@@ -18,7 +18,7 @@
     ansible.builtin.pip:
       name:
       - boto3
-      - botocare
+      - botocore
       executable: pip3.9
 
   - name: create ec2 instance
