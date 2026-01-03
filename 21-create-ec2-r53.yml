@@ -40,7 +40,7 @@
 
   #print the r53 private records   
   - name: create r53 private records
-    ansible.aws.route53:
+    amazon.aws.route53:
       state: present
       zone: "{{zone}}"
       record: "{{item:item}}.{{zone}}" #mysql.daws100s.online
@@ -53,7 +53,7 @@
 
   #print the r53 public record
   - name: create r53 public record
-    ansible.aws.route53:
+    amazon.aws.route53:
       state: present
       zone: "{{zone}}"
       ttl: 1
