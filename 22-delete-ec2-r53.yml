@@ -1,0 +1,78 @@
+- name: create ec2 and r53 records
+  hosts: local
+  connection: local
+
+  #assignment
+  #move this to var_files
+  vars: 
+    subnet_id: "subnet-081031787d53f4ea6"
+    sg_id: "sg-0067ac1bfd8ab69ae"
+    ami_id: "ami-09c813fb71547fc4f"
+    instances: 
+    - mysql
+    - backend
+    - frontend
+    zone: daws100s.online
+
+  #dependencies
+  tasks:
+  - name: ansible to install boto3 and botocare
+    ansible.builtin.pip:
+      name:
+      - boto3
+      - botocore
+      executable: pip3.9
+
+  - name: create ec2 instance
+    amazon.aws.ec2_instance: #module for aws ec2_instances
+      state: absent
+      name: "{{ item }}"
+      vpc_subnet_id: "{{ subnet_id }}"
+      instance_type: "t3.micro"
+      security_group: "{{sg_id}}"
+      image_id: "{{ ami_id }}"
+    loop: "{{ instances }}" #looping the list from instances that are mysql, backend, frontend
+    register: ec2_instances #"register" is used to store the every instance details in "ec2_instances" variables
+
+  #print the output of 3instances
+  - name: print the output
+    ansible.builtin.debug:
+      msg: "{{ec2_instances}}"
+
+  #print the r53 private records   
+  - name: create r53 private records
+    amazon.aws.route53:
+      state: present
+      zone: "{{zone}}"
+      record: "{{item.item}}.{{zone}}" #mysql.daws100s.online
+      type: A
+      ttl: 1
+      value: "{{item.instances[0].private_ip_address}}" #172.168.1.1
+      wait: true
+      overwrite: true
+    loop: "{{ec2_instances.results}}"
+    register: private_records
+
+  - name: print the private r53 output
+    ansible.builtin.debug:
+      msg: "{{private_records}}"
+
+  #print the r53 public record
+  - name: create r53 public record
+    amazon.aws.route53:
+      state: present
+      zone: "{{zone}}"
+      ttl: 1
+      type: A
+      record: "{{zone}}"
+      value: "{{item.instances[0].public_ip_address}}"
+      wait: true
+      overwrite: true
+    loop: "{{ec2_instances.results}}"
+    when: item.item == "frontend" #when keyword should not have {{ }}
+    register: public_records
+
+  - name: print the output of public record
+    ansible.builtin.debug:
+      msg: "{{public_records}}"
+
